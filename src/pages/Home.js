@@ -5,7 +5,9 @@ import SmoothieCard from "../components/SmoothieCard";
 export default function Home() {
   const [fetchError, setFetchError] = useState(null);
   const [smoothies, setSmoothies] = useState(null);
+  const [orderBy, setOrderBy] = useState("created_at");
 
+  // Delete the smoothie from the local state by checking for the id
   const handleDelete = (id) => {
     setSmoothies((prevSmoothies) => {
       return prevSmoothies.filter((smoothie) => smoothie.id !== id);
@@ -21,7 +23,8 @@ export default function Home() {
         // Choosing the table
         .from("smoothies")
         // Selecting all results
-        .select("*");
+        .select()
+        .order(orderBy, { ascending: false });
       // If there is an error, we set the error state
       if (error) {
         // Return an custom message
@@ -39,14 +42,22 @@ export default function Home() {
     };
     // Calling the function to get the data
     fetchSmoothies();
-  }, []);
+  }, [orderBy]);
 
   return (
     <div className="page home">
       {fetchError && <p>{fetchError}</p>}
       {smoothies && (
         <div className="smoothies">
-          {/* Buttons to order smoothies */}
+          <div className="order-by">
+            <p>Order by:</p>
+            <button onClick={() => setOrderBy("created_at")}>
+              Time Created
+            </button>
+            <button onClick={() => setOrderBy("title")}>Title</button>
+            <button onClick={() => setOrderBy("rating")}>Rating</button>
+            {orderBy}
+          </div>
           <div className="smoothie-grid">
             {smoothies.map((smoothie) => (
               <SmoothieCard
