@@ -56,7 +56,6 @@ export default function Home() {
             </button>
             <button onClick={() => setOrderBy("title")}>Title</button>
             <button onClick={() => setOrderBy("rating")}>Rating</button>
-            {orderBy}
           </div>
           <div className="smoothie-grid">
             {smoothies.map((smoothie) => (
