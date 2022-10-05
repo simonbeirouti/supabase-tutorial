@@ -6,6 +6,12 @@ export default function Home() {
   const [fetchError, setFetchError] = useState(null);
   const [smoothies, setSmoothies] = useState(null);
 
+  const handleDelete = (id) => {
+    setSmoothies((prevSmoothies) => {
+      return prevSmoothies.filter((smoothie) => smoothie.id !== id);
+    });
+  };
+
   // Fetching the smoothies from the database
   useEffect(() => {
     // Function to fetch the smooothis from the database
@@ -43,7 +49,11 @@ export default function Home() {
           {/* Buttons to order smoothies */}
           <div className="smoothie-grid">
             {smoothies.map((smoothie) => (
-              <SmoothieCard key={smoothie.id} smoothie={smoothie} />
+              <SmoothieCard
+                key={smoothie.id}
+                smoothie={smoothie}
+                onDelete={handleDelete}
+              />
             ))}
           </div>
         </div>
